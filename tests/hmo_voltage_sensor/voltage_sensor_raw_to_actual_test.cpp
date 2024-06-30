@@ -22,10 +22,17 @@ TEST_GROUP(hmo_voltage_sensor_raw_to_actual)
     }
 };
 
-TEST(hmo_voltage_sensor_raw_to_actual, rawToActualNullHandleNull)
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualNullHandle)
 {
     uint32_t actual;
     uint32_t raw = 0;
     voltage_sensor_err_t result = voltage_sensor_raw_to_actual(NULL, raw, &actual);
+    CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
+}
+
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualNullActual)
+{
+    uint32_t raw = 0;
+    voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, NULL);
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
 }

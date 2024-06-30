@@ -16,11 +16,11 @@ voltage_sensor_err_t voltage_sensor_read (voltage_sensor_handle_t handle, uint32
 
 voltage_sensor_err_t voltage_sensor_raw_to_actual(voltage_sensor_handle_t handle, uint32_t raw, uint32_t *actual)
 {
-    if (handle == NULL)
+    if (handle == NULL || actual == NULL)
     {
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
-    
+
     return handle->interface->raw_to_actual(handle, raw, actual);
 }
 
