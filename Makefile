@@ -1,4 +1,4 @@
-vpath %.c src devices/src devices/hmo_voltage_sensor/src tests tests/init
+vpath %.c src devices/src devices/hmo_voltage_sensor/src tests tests/hmo_voltage_sensor
 vpath %.h include devices/include devices/hmo_voltage_sensor/include
 
 # Compiler and flags
@@ -32,9 +32,9 @@ TEST_OBJECTS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(TEST_SOURCES))
 TEST_EXECUTABLE = $(BUILDDIR)/AllTests
 
 # Create object directory if it doesn't exist
-$(shell mkdir -p $(OBJDIR) $(OBJDIR)/$(SRCDIR) $(OBJDIR)/$(DEVICEDIR)/src $(OBJDIR)/$(DEVICEDIR)/hmo_voltage_sensor/src $(OBJDIR)/$(TESTDIR) $(OBJDIR)/$(TESTDIR)/init $(BUILDDIR))
+$(shell mkdir -p $(OBJDIR) $(OBJDIR)/$(SRCDIR) $(OBJDIR)/$(DEVICEDIR)/src $(OBJDIR)/$(DEVICEDIR)/hmo_voltage_sensor/src $(OBJDIR)/$(TESTDIR) $(OBJDIR)/$(TESTDIR)/hmo_voltage_sensor $(BUILDDIR))
 
-# Default target
+# Default targetvoltage_sensor
 all: $(OBJECTS) $(TEST_EXECUTABLE)
 
 # Rule to build object files
