@@ -28,3 +28,10 @@ TEST(hmo_voltage_sensor_read, readNullHandleNull)
     voltage_sensor_err_t result = voltage_sensor_read(NULL, &value);
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
 }
+
+
+TEST(hmo_voltage_sensor_read, readNullValueNull)
+{
+    voltage_sensor_err_t result = voltage_sensor_read(sensor, NULL);
+    CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
+}

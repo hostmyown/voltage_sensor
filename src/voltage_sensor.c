@@ -6,7 +6,7 @@
 
 voltage_sensor_err_t voltage_sensor_read (voltage_sensor_handle_t handle, uint32_t *value)
 {
-    if (handle == NULL)
+    if (handle == NULL || value == NULL)
     {
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
