@@ -6,6 +6,7 @@
 typedef struct voltage_sensor_interface_s {
     voltage_sensor_err_t (* read)(voltage_sensor_handle_t handle, uint32_t *value);
     voltage_sensor_err_t (* raw_to_actual)(voltage_sensor_handle_t handle, uint32_t raw, uint32_t *actual);
+    uint32_t (* get_scale_factor)(voltage_sensor_handle_t handle);
     voltage_sensor_err_t (* destroy)(voltage_sensor_handle_t handle);
 } voltage_sensor_interface_t;
 

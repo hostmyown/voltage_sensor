@@ -24,6 +24,11 @@ voltage_sensor_err_t voltage_sensor_raw_to_actual(voltage_sensor_handle_t handle
     return handle->interface->raw_to_actual(handle, raw, actual);
 }
 
+uint32_t voltage_sensor_get_scale_factor(voltage_sensor_handle_t handle)
+{
+    return handle->interface->get_scale_factor(handle);
+}
+
 voltage_sensor_err_t voltage_sensor_destroy(voltage_sensor_handle_t handle)
 {
     return handle->interface->destroy(handle);

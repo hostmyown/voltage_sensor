@@ -23,6 +23,7 @@ typedef enum {
 
 voltage_sensor_err_t voltage_sensor_read(voltage_sensor_handle_t handle, uint32_t *value);
 voltage_sensor_err_t voltage_sensor_raw_to_actual(voltage_sensor_handle_t handle, uint32_t raw, uint32_t *actual);
+uint32_t voltage_sensor_get_scale_factor(voltage_sensor_handle_t handle);
 voltage_sensor_err_t voltage_sensor_destroy(voltage_sensor_handle_t handle);
 
 #endif  /* VOLTAGE_SENSOR_H__ */
