@@ -52,4 +52,7 @@ $(TEST_EXECUTABLE): $(OBJECTS) $(TEST_OBJECTS)
 clean:
 	rm -rf $(BUILDDIR) $(TEST_EXECUTABLE)
 
-.PHONY: all clean
+run_tests: $(TEST_EXECUTABLE)
+	$(TEST_EXECUTABLE)
+
+.PHONY: all clean run_tests
