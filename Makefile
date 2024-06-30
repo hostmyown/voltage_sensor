@@ -1,79 +1,55 @@
-vpath %.c src
-vpath %.h include
+vpath %.c src devices/src devices/hmo_voltage_sensor/src tests tests/init
+vpath %.h include devices/include devices/hmo_voltage_sensor/include
 
-BUILD_DIR = build
-
-# Setup variables for the module
-SRC_DIR ?= src
-INCLUDE_DIR ?= include
-
-MODULE_NAME ?= voltage_sensor
-
-sources = $(wildcard $(SRC_DIR)/*.c)
-includes = $(wildcard $(INCLUDE_DIR)/*.h)
-objects = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(sources))
-TARGET ?= $(BUILD_DIR)/lib$(MODULE_NAME).a
-
-CFLAGS += -Iinclude
-
-
-# Setup variables for the tests
-TEST_SRC_DIR ?= tests
-
-# Find all .cpp files in the test source directory and its subdirectories
-test_sources = $(shell find $(TEST_SRC_DIR) -name '*.cpp')
-test_objects = $(patsubst $(TEST_SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(test_sources))
-
-# Extract the base name for the test target
-test_root_sources = $(shell find $(TEST_SRC_DIR) -maxdepth 1 -name '*.cpp')
-test_base_name = $(basename $(notdir $(test_root_sources)))
-TEST_TARGET ?= $(BUILD_DIR)/$(test_base_name)
-
-CPPUTEST_HOME ?= ../cpputest
-CPPUTEST_LIB_DIR ?= $(CPPUTEST_HOME)/lib
+# Compiler and flags
+CC = gcc
+CXX = g++
+CFLAGS = -Wall -Wextra -Iinclude -Idevices/include -Idevices/hmo_voltage_sensor/include -Itests
 LDLIBS_CPPUTEST ?= -L$(CPPUTEST_LIB_DIR) -L. -lCppUTest -lCppUTestExt
-CXXFLAGS += -Iinclude
 
-# Define a function to create the required directories
-define make-build-dir
-  @mkdir -p $(dir $@)
-endef
+# Directories
+SRCDIR = src
+DEVICEDIR = devices
+TESTDIR = tests
+BUILDDIR = build
+OBJDIR = $(BUILDDIR)/obj
 
-.PHONY: all clean run_tests
+
+# Device-specific source files
+DEVICE_SOURCES = $(wildcard $(DEVICEDIR)/*/src/*.c)
+
+# Source files
+SOURCES = $(wildcard $(SRCDIR)/*.c) $(wildcard $(DEVICEDIR)/src/*.c) $(DEVICE_SOURCES)
+
+# Test source files
+TEST_SOURCES = $(wildcard $(TESTDIR)/*.cpp) $(wildcard $(TESTDIR)/*/*.cpp)
+BUILDDIR = build
+# Object files
+OBJECTS = $(patsubst %.c, $(OBJDIR)/%.o, $(SOURCES))
+TEST_OBJECTS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(TEST_SOURCES))
+
+# Test executable
+TEST_EXECUTABLE = $(BUILDDIR)/AllTests
+
+# Create object directory if it doesn't exist
+$(shell mkdir -p $(OBJDIR) $(OBJDIR)/$(SRCDIR) $(OBJDIR)/$(DEVICEDIR)/src $(OBJDIR)/$(DEVICEDIR)/hmo_voltage_sensor/src $(OBJDIR)/$(TESTDIR) $(OBJDIR)/$(TESTDIR)/init $(BUILDDIR))
 
 # Default target
-all: $(TEST_TARGET) $(TARGET) run_tests
+all: $(OBJECTS) $(TEST_EXECUTABLE)
 
-# Module targets
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(make-build-dir)
+# Rule to build object files
+$(OBJDIR)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TARGET): $(objects) | $(BUILD_DIR)
-	$(AR) rv $@ $(objects)
+$(OBJDIR)/%.o: %.cpp
+	$(CXX) $(CFLAGS) -c $< -o $@
 
+# Rule to build test executable
+$(TEST_EXECUTABLE): $(OBJECTS) $(TEST_OBJECTS)
+	$(CXX) $(CFLAGS) $(LDLIBS_CPPUTEST) $(OBJECTS) $(TEST_OBJECTS) -o $@
 
-# Test targets
-$(BUILD_DIR)/%.o: $(TEST_SRC_DIR)/%.cpp | $(BUILD_DIR)
-	$(make-build-dir)
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
-
-$(TEST_TARGET): $(test_objects) $(TARGET) | $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $^ $(LDLIBS_CPPUTEST) -o $@
-
-
-run_tests:
-	$(TEST_TARGET)
-
-# Create build directory if it doesn't exist
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
-	
+# Clean up build files
 clean:
-	rm $(objects) $(test_objects) $(TARGET) $(TEST_TARGET)
+	rm -rf $(BUILDDIR) $(TEST_EXECUTABLE)
 
-
-
-# Include generated dependencies
--include $(objects:.o=.d)
--include $(test_objects:.o=.d)
+.PHONY: all clean

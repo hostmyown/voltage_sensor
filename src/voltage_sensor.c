@@ -1,31 +1,22 @@
-#include "voltage_sensor.h"
+#include "voltage_sensor_priv.h"
 #include <stdlib.h>
 #include <memory.h>
+#include <stdio.h>
 
-typedef struct voltage_sensor_s
+
+voltage_sensor_err_t voltage_sensor_read (voltage_sensor_handle_t handle, uint32_t *value)
 {
-    voltage_sensor_config_t config;
-} voltage_sensor_t;
-
-voltage_sensor_err_t voltage_sensor_create(voltage_sensor_config_t *config, voltage_sensor_handle_t *handle)
-{
-     voltage_sensor_handle_t self = calloc(1, sizeof(voltage_sensor_t));
-
-     if (self == NULL)
-     {
-        return VOLTAGE_SENSOR_OUT_OF_MEMORY;
-     }
-
-     self->config = *config;
-
-     *handle = self;
-
-     return VOLTAGE_SENSOR_OK;
+    return handle->interface->read(handle, value);
 }
 
-void voltage_sensor_destroy(voltage_sensor_handle_t handle)
+voltage_sensor_err_t voltage_sensor_raw_to_actual(voltage_sensor_handle_t handle, uint32_t raw, uint32_t *actual)
 {
-    free(handle);
+    return handle->interface->raw_to_actual(handle, raw, actual);
+}
+
+voltage_sensor_err_t voltage_sensor_destroy(voltage_sensor_handle_t handle)
+{
+    return handle->interface->destroy(handle);
 }
 
 
