@@ -41,3 +41,13 @@ TEST(hmo_voltage_sensor_raw_to_actual, rawToActualNullActual)
     voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, NULL);
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
 }
+
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualZeroInpue)
+{
+    uint32_t actual;
+    uint32_t actual_expected = 0;
+    uint32_t raw = 0;
+    voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, &actual);
+    CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
+    CHECK_EQUAL(actual_expected, actual);
+}

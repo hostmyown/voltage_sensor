@@ -66,7 +66,7 @@ static voltage_sensor_err_t raw_to_actual(voltage_sensor_handle_t handle, uint32
 
     *actual = raw * self->scaled_divider_ratio;
 
-    return VOLTAGE_SENSOR_NOT_IMPLEMENTED;
+    return VOLTAGE_SENSOR_OK;
 }
 
 uint32_t get_scale_factor(voltage_sensor_handle_t handle)
