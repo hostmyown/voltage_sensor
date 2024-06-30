@@ -71,12 +71,14 @@ static voltage_sensor_err_t raw_to_actual(voltage_sensor_handle_t handle, uint32
 
 uint32_t get_scale_factor(voltage_sensor_handle_t handle)
 {
-    if (handle == NULL)
+    hmo_voltage_sensor_t *self = (hmo_voltage_sensor_t *) handle;
+
+    if (self == NULL)
     {
 
     }
 
-    return VOLTAGE_SENSOR_NOT_IMPLEMENTED;
+    return self->config.scale_factor;
 }
 
 static voltage_sensor_err_t destroy(voltage_sensor_handle_t handle)

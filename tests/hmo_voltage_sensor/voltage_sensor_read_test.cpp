@@ -9,7 +9,11 @@ extern "C"
 TEST_GROUP(hmo_voltage_sensor_read)
 {
     voltage_sensor_handle_t sensor;
-    hmo_voltage_sensor_config_t config = {1234, 5678};
+    hmo_voltage_sensor_config_t config = {
+        .r1_value = 98765,
+        .r2_value = 41873,
+        .scale_factor = 10000,
+    };
 
     void setup()
     {
