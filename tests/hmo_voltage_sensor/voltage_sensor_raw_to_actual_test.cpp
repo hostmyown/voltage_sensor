@@ -10,8 +10,8 @@ TEST_GROUP(hmo_voltage_sensor_raw_to_actual)
 {
     voltage_sensor_handle_t sensor;
     hmo_voltage_sensor_config_t config = {
-        .r1_value = 1234,
-        .r2_value = 5678,
+        .r1_value = 10000000,
+        .r2_value = 1000000,
         .scale_factor = 1000,
     };
 
@@ -42,11 +42,22 @@ TEST(hmo_voltage_sensor_raw_to_actual, rawToActualNullActual)
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
 }
 
-TEST(hmo_voltage_sensor_raw_to_actual, rawToActualZeroInpue)
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualZeroInput)
 {
     uint32_t actual;
     uint32_t actual_expected = 0;
     uint32_t raw = 0;
+    voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, &actual);
+    CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
+    CHECK_EQUAL(actual_expected, actual);
+}
+
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualTypicalInput)
+{
+    uint32_t actual;
+    uint32_t scale_factor = voltage_sensor_get_scale_factor(sensor);
+    uint32_t actual_expected = 16.5 * scale_factor;
+    uint32_t raw = 1.5 * scale_factor;
     voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, &actual);
     CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
     CHECK_EQUAL(actual_expected, actual);

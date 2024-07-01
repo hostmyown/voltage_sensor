@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <inttypes.h>
 
 typedef struct hmo_voltage_sensor_s
 {
@@ -35,8 +37,9 @@ voltage_sensor_err_t hmo_voltage_sensor_create(hmo_voltage_sensor_config_t *conf
     self->base.name = "hmo voltage sensor";
     self->base.interface = &interface;
     self->config = *config;
-    self->scaled_divider_ratio = config->scale_factor * (self->config.r1_value + self->config.r2_value) /  self->config.r2_value;
-     *handle = (voltage_sensor_handle_t) self;
+    // Cast to uint64_t to prevent overflow when calculating the fixed point value
+    self->scaled_divider_ratio = (uint32_t)(((uint64_t)config->scale_factor * (self->config.r1_value + self->config.r2_value)) / self->config.r2_value);
+    *handle = (voltage_sensor_handle_t) self;
 
      return VOLTAGE_SENSOR_OK;
 }
@@ -64,7 +67,7 @@ static voltage_sensor_err_t raw_to_actual(voltage_sensor_handle_t handle, uint32
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
 
-    *actual = raw * self->scaled_divider_ratio;
+    *actual = (raw * self->scaled_divider_ratio) / self->config.scale_factor;
 
     return VOLTAGE_SENSOR_OK;
 }
@@ -75,7 +78,7 @@ uint32_t get_scale_factor(voltage_sensor_handle_t handle)
 
     if (self == NULL)
     {
-
+        return VOLTAGE_SENSOR_INVALID_ARG;
     }
 
     return self->config.scale_factor;
