@@ -62,3 +62,14 @@ TEST(hmo_voltage_sensor_raw_to_actual, rawToActualTypicalInput)
     CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
     CHECK_EQUAL(actual_expected, actual);
 }
+
+TEST(hmo_voltage_sensor_raw_to_actual, rawToActualMaxInput)
+{
+    uint32_t actual;
+    uint32_t scale_factor = voltage_sensor_get_scale_factor(sensor);
+    uint32_t actual_expected = 60.5 * scale_factor;
+    uint32_t raw = 5.5 * scale_factor;
+    voltage_sensor_err_t result = voltage_sensor_raw_to_actual(sensor, raw, &actual);
+    CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
+    CHECK_EQUAL(actual_expected, actual);
+}

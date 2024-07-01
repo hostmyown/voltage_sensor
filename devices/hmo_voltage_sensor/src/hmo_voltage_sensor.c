@@ -67,7 +67,9 @@ static voltage_sensor_err_t raw_to_actual(voltage_sensor_handle_t handle, uint32
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
 
-    *actual = (raw * self->scaled_divider_ratio) / self->config.scale_factor;
+    // Cast to uint64_t to avoid overflow and divide by the scale factor because both raw and
+    // scaled_divider_ratio have been scaled
+    *actual = (uint32_t)((raw * self->scaled_divider_ratio) / self->config.scale_factor);
 
     return VOLTAGE_SENSOR_OK;
 }
