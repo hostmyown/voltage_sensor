@@ -27,12 +27,12 @@ static voltage_sensor_interface_t interface = {
 
 voltage_sensor_err_t hmo_voltage_sensor_create(hmo_voltage_sensor_config_t *config ,voltage_sensor_handle_t *handle)
 {
-     hmo_voltage_sensor_t *self = (hmo_voltage_sensor_t *) calloc(1, sizeof(hmo_voltage_sensor_t));
+    hmo_voltage_sensor_t *self = (hmo_voltage_sensor_t *) calloc(1, sizeof(hmo_voltage_sensor_t));
 
-     if (self == NULL)
-     {
+    if (self == NULL)
+    {
         return VOLTAGE_SENSOR_OUT_OF_MEMORY;
-     }
+    }
 
     self->base.name = "hmo voltage sensor";
     self->base.interface = &interface;
@@ -41,7 +41,7 @@ voltage_sensor_err_t hmo_voltage_sensor_create(hmo_voltage_sensor_config_t *conf
     self->scaled_divider_ratio = (uint32_t)(((uint64_t)config->scale_factor * (self->config.r1_value + self->config.r2_value)) / self->config.r2_value);
     *handle = (voltage_sensor_handle_t) self;
 
-     return VOLTAGE_SENSOR_OK;
+    return VOLTAGE_SENSOR_OK;
 }
 
 static voltage_sensor_err_t read(voltage_sensor_handle_t handle, uint32_t *value)
