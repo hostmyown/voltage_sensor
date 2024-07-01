@@ -100,5 +100,7 @@ static voltage_sensor_err_t destroy(voltage_sensor_handle_t handle)
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
 
-    return VOLTAGE_SENSOR_NOT_IMPLEMENTED;
+    free(self);
+
+    return VOLTAGE_SENSOR_OK;
 }

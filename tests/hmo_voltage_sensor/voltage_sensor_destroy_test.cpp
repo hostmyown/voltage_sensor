@@ -33,3 +33,11 @@ TEST(hmo_voltage_sensor_destroy, DestroyNullHandle)
 {
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, voltage_sensor_destroy(NULL));
 }
+
+TEST(hmo_voltage_sensor_destroy, Destroy)
+{
+    voltage_sensor_handle_t destroy_sensor;
+    hmo_voltage_sensor_create(&config, &destroy_sensor);
+
+    CHECK_EQUAL(VOLTAGE_SENSOR_OK, voltage_sensor_destroy(destroy_sensor));
+}
