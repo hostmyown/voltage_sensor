@@ -27,11 +27,11 @@ static voltage_sensor_interface_t interface = {
 
 voltage_sensor_err_t hmo_voltage_sensor_create(hmo_voltage_sensor_config_t *config ,voltage_sensor_handle_t *handle)
 {
-    if (config == NULL)
+    if (config == NULL || handle == NULL)
     {
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
-    
+
     hmo_voltage_sensor_t *self = (hmo_voltage_sensor_t *) calloc(1, sizeof(hmo_voltage_sensor_t));
 
     if (self == NULL)

@@ -32,7 +32,7 @@ TEST_GROUP(hmo_voltage_sensor_create)
 TEST(hmo_voltage_sensor_create, Create)
 {
     voltage_sensor_handle_t sensor_create;
- 
+
     voltage_sensor_err_t result = hmo_voltage_sensor_create(&config, &sensor_create);
 
     CHECK_EQUAL(VOLTAGE_SENSOR_OK, result);
@@ -43,8 +43,15 @@ TEST(hmo_voltage_sensor_create, Create)
 TEST(hmo_voltage_sensor_create, CreateNullConfig)
 {
     voltage_sensor_handle_t sensor_create;
- 
+
     voltage_sensor_err_t result = hmo_voltage_sensor_create(NULL, &sensor_create);
+
+    CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
+}
+
+TEST(hmo_voltage_sensor_create, CreateNullHandle)
+{
+    voltage_sensor_err_t result = hmo_voltage_sensor_create(&config, NULL);
 
     CHECK_EQUAL(VOLTAGE_SENSOR_INVALID_ARG, result);
 }
