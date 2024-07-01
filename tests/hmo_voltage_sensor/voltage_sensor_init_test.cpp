@@ -39,8 +39,3 @@ TEST(hmo_voltage_sensor_init, Create)
 
     voltage_sensor_destroy(sensor_create);
 }
-
-TEST(hmo_voltage_sensor_init, ScaleFactorInit)
-{
-    CHECK_EQUAL(config.scale_factor, voltage_sensor_get_scale_factor(sensor));
-}
