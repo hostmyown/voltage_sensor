@@ -6,7 +6,7 @@ extern "C"
 
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(hmo_voltage_sensor_init)
+TEST_GROUP(hmo_voltage_sensor_create)
 {
     voltage_sensor_handle_t sensor; // Default sensor instance
     hmo_voltage_sensor_config_t config;
@@ -29,7 +29,7 @@ TEST_GROUP(hmo_voltage_sensor_init)
     }
 };
 
-TEST(hmo_voltage_sensor_init, Create)
+TEST(hmo_voltage_sensor_create, Create)
 {
     voltage_sensor_handle_t sensor_create;
  
