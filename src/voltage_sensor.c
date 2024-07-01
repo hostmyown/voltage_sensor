@@ -26,6 +26,11 @@ voltage_sensor_err_t voltage_sensor_raw_to_actual(voltage_sensor_handle_t handle
 
 uint32_t voltage_sensor_get_scale_factor(voltage_sensor_handle_t handle)
 {
+    if (handle == NULL)
+    {
+        return 0;
+    }
+
     return handle->interface->get_scale_factor(handle);
 }
 

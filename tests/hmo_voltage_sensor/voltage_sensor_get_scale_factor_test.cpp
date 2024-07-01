@@ -32,3 +32,7 @@ TEST(hmo_voltage_sensor_get_scale_factor, ScaleFactorInit)
     CHECK_EQUAL(config.scale_factor, voltage_sensor_get_scale_factor(sensor));
 }
 
+TEST(hmo_voltage_sensor_get_scale_factor, ScaleFactorNullHandle)
+{
+    CHECK_EQUAL(0, voltage_sensor_get_scale_factor(NULL));
+}
