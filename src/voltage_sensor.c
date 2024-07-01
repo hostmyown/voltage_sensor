@@ -36,6 +36,11 @@ uint32_t voltage_sensor_get_scale_factor(voltage_sensor_handle_t handle)
 
 voltage_sensor_err_t voltage_sensor_destroy(voltage_sensor_handle_t handle)
 {
+    if (handle == NULL)
+    {
+        return VOLTAGE_SENSOR_INVALID_ARG;
+    }
+
     return handle->interface->destroy(handle);
 }
 
