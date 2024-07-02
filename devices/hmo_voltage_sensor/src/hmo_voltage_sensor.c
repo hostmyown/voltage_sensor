@@ -1,5 +1,6 @@
 #include "voltage_sensor_priv.h"
 #include "hmo_voltage_sensor.h"
+#include "adc.h"
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -58,9 +59,9 @@ static voltage_sensor_err_t read(voltage_sensor_handle_t handle, uint32_t *value
         return VOLTAGE_SENSOR_INVALID_ARG;
     }
 
-    *value = 1234;
+    *value = adc_read();
 
-    return VOLTAGE_SENSOR_NOT_IMPLEMENTED;
+    return VOLTAGE_SENSOR_OK;
 }
 
 static voltage_sensor_err_t raw_to_actual(voltage_sensor_handle_t handle, uint32_t raw, uint32_t *actual)

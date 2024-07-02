@@ -4,7 +4,7 @@ vpath %.h include devices/include devices/hmo_voltage_sensor/include
 # Compiler and flags
 CC = gcc
 CXX = g++
-CFLAGS = -Wall -Wextra -Iinclude -Idevices/include -Idevices/hmo_voltage_sensor/include -Itests
+CFLAGS = -Wall -Wextra -Iinclude -Idevices/include -Idevices/hmo_voltage_sensor/include -Itests -Idrivers
 LDLIBS_CPPUTEST ?= -L$(CPPUTEST_LIB_DIR) -L. -lCppUTest -lCppUTestExt
 
 # Directories
