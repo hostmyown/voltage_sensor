@@ -32,7 +32,7 @@ TEST_OBJECTS = $(patsubst %.cpp, $(OBJDIR)/%.o, $(TEST_SOURCES))
 TEST_EXECUTABLE = $(BUILDDIR)/AllTests
 
 # Create object directory if it doesn't exist
-$(shell mkdir -p $(OBJDIR) $(OBJDIR)/$(SRCDIR) $(OBJDIR)/$(DEVICEDIR)/src $(OBJDIR)/$(DEVICEDIR)/hmo_voltage_sensor/src $(OBJDIR)/$(TESTDIR) $(OBJDIR)/$(TESTDIR)/hmo_voltage_sensor $(BUILDDIR))
+$(shell mkdir -p $(OBJDIR) $(OBJDIR)/$(SRCDIR) $(OBJDIR)/$(DEVICEDIR)/src $(OBJDIR)/$(DEVICEDIR)/hmo_voltage_sensor/src $(OBJDIR)/$(TESTDIR) $(OBJDIR)/$(TESTDIR)/hmo_voltage_sensor $(OBJDIR)/$(TESTDIR)/mocks $(BUILDDIR))
 
 # Default targetvoltage_sensor
 all: $(OBJECTS) $(TEST_EXECUTABLE)

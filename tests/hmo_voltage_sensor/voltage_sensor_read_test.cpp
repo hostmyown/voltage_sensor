@@ -8,10 +8,6 @@ extern "C"
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
 
-uint32_t adc_read() {
-    return mock().actualCall("adc_read").returnUnsignedIntValue();
-}
-
 TEST_GROUP(hmo_voltage_sensor_read)
 {
     voltage_sensor_handle_t sensor;

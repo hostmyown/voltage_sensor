@@ -3,6 +3,14 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 uint32_t adc_read();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // ADC_H__
